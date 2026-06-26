@@ -6,7 +6,12 @@ import "package:flutter/material.dart";
 //   foregroundColor: const Color.fromARGB(255, 43, 82, 120),
 // );
 
-
+var iconButtonStyle = IconButton.styleFrom(
+    backgroundColor: Colors.transparent,            // прозрачный фон
+    shadowColor: Colors.transparent,                // без тени
+    surfaceTintColor: Colors.transparent,
+    foregroundColor: Color.fromARGB(255, 43, 82, 120)
+);
 
 class CustomButton extends StatelessWidget {
   final Text text;
@@ -51,10 +56,7 @@ class CustomIconButton extends StatelessWidget {
       icon: icon,
       iconSize: iconSize,
       onPressed: _onPress,
-      style: IconButton.styleFrom(
-        backgroundColor: const Color.fromARGB(0, 1, 1, 1),
-        foregroundColor: const Color.fromARGB(255, 43, 82, 120),
-      )
+      style: iconButtonStyle
     );
   }
 }

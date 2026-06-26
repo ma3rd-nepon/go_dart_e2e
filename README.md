@@ -1,6 +1,9 @@
 # 0xEFD15DA7
 
-[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev) [![License](https://img.shields.io/badge/License-GPL%20v3-blue)](LICENSE)
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev) [![Dart](https://img.shields.io/badge/Dart-0175C2?style=flat&logo=dart&logoColor=white)](https://dart.dev)
+[![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)](https://go.dev)
+
+[![License](https://img.shields.io/badge/License-GPL%20v3-blue)](LICENSE)
 
 Crossplatform messenger based on Flutter.
 
@@ -8,7 +11,7 @@ Crossplatform messenger based on Flutter.
 0xEFD15DA7 is a real-time chat application designed from the ground up for speed and reliability. The client is written entirely in Dart using the Flutter framework, providing native performance on Windows, Linux, macOS, Android, and iOS from a single codebase. The backend is powered by Go, chosen for its lightweight concurrency model and excellent WebSocket support (ofc also for multistreaming).
 
 ### Requirements
- - Flutter SDK 3.29+
+ - Flutter SDK ^3.44.4
  - Dart ^3.12.2
  - Windows 10+ / macOS / Linux
  - brain
@@ -29,11 +32,10 @@ flutter pub get
 ```
 lib/
 ├── main.dart              # main app file
-├── models/                # Модели данных (User, Message, Chat)
+├── models/                # Data models (User, Message, Chat)
 ├── services/              # Database/WebSocket Utilities
 ├── screens/               # App screens
 ├── widgets/               # Widgets
-└── utils/                 # Утилиты и константы
 ```
 
 ### Technologies

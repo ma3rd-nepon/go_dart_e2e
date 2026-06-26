@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter 123',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 92, 0, 252)),
+        colorScheme: .fromSeed(
+          seedColor: const Color.fromARGB(255, 92, 0, 252),
+        ),
       ),
       home: const MyHomePage(title: 'Home Page'),
     );
@@ -34,93 +36,87 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _controller = TextEditingController();
-  final List<Widget> _items = []; 
+  final _focusNode = FocusNode();
+  final List<List<Widget>> _items = chatList;
+  int _selectedIndex = 0;
+  String _selectedChatName = "Эмир тиктокер";
 
   void _sendMsg() {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
     setState(() {
-      _items.insert(0, MessageBubble(text: text, isMe: true));
+      _items[_selectedIndex].insert(0, MessageBubble(text: text, isMe: true));
+      _focusNode.requestFocus();
       _controller.clear();
     });
-}
+  }
+
+  void _setIndex(int index, String chatName) {
+    setState(() {
+      _selectedIndex = index;
+      _selectedChatName = chatName;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Row(
-          mainAxisAlignment: .center,
-          children: [
-            Expanded(
-            child: ResizableContainer(
-              direction: Axis.horizontal,
-              children: [
-                ResizableChild(
-                  divider: ResizableDivider(thickness: 5),
-                  size: const ResizableSize.expand(min: 250),
-                child:
-                Container(
-                  width: double.infinity,
-                  color: Color.fromARGB(255, 23, 33, 43),
-                  child: Column(
-                    crossAxisAlignment: .center,
-                    mainAxisAlignment: .center,
-                    children: [
-                      TextField(decoration: const InputDecoration(hintText: "Search chats")),
-                      Expanded(
-                        child: WidgetList(
-                          items: [
-                            ChatListElement(chatName: "эмир тиктокер", chatLastMsg: "привет", chatIcon: Icon(Icons.person, size: 70), chatStatus: true),
-                            ChatListElement(chatName: "chat2", chatLastMsg: "нет", chatIcon: Icon(Icons.person, size: 70), chatStatus: false),
-                            ChatListElement(chatName: "chat3", chatLastMsg: "пока", chatIcon: Icon(Icons.person, size: 70), chatStatus: true),
-                            ChatListElement(chatName: "chat4", chatLastMsg: "2222", chatIcon: Icon(Icons.person, size: 70), chatStatus: false),
-                            ChatListElement(chatName: "chat5", chatLastMsg: "ываываыва", chatIcon: Icon(Icons.person, size: 70), chatStatus: true),
-                            ChatListElement(chatName: "chat6", chatLastMsg: "хвы", chatIcon: Icon(Icons.person, size: 70), chatStatus: true),
-                            ChatListElement(chatName: "эмир тиктокер", chatLastMsg: "1234", chatIcon: Icon(Icons.person, size: 70), chatStatus: true),
-                            ChatListElement(chatName: "эмир тиктокер", chatLastMsg: "idgaf", chatIcon: Icon(Icons.person, size: 70), chatStatus: true),
-                            ChatListElement(chatName: "эмир тиктокер", chatLastMsg: "германия", chatIcon: Icon(Icons.person, size: 70), chatStatus: false)
-                          ],
-                          reverse: false
-                        )
-                      )
-                    ]
-                  )
-                )
-                ),
-                ResizableChild(
-                  size: const ResizableSize.expand(min: 500),
-                  child: Column(
-                mainAxisAlignment: .center, 
-                children: [
-                  Expanded(flex: 9, child: WidgetList(items: _items, reverse: true)),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          color: Color.fromARGB(255, 23, 33, 43), 
-                          child: TextField(
-                            autofocus:true, 
-                            controller: _controller, 
-                            decoration: InputDecoration(
-                              hintText: "Enter a message"
-                            ), 
-                            onSubmitted: (value) => _sendMsg(), 
-                            style: const TextStyle(color: Colors.white)
-                          )
-                        )
+        child: Tabs(
+          selectedIndex: _selectedIndex,
+          setIndex: _setIndex,
+          currentChatName: _selectedChatName,
+          scrollDirection: Axis.vertical,
+          child: Row(
+            mainAxisAlignment: .center,
+            children: [
+              Expanded(
+                child: ResizableContainer(
+                  direction: Axis.horizontal,
+                  children: [
+                    ResizableChild(
+                      divider: ResizableDivider(
+                        thickness: 5,
+                        color: Color.fromARGB(255, 23, 33, 43),
                       ),
-                      CustomIconButton(onPress: _sendMsg, icon: Icon(Icons.send))
-                    ]
-                  )
-                ],
-              )
-                )
-              ]
-            )
-            ),
-          ],
+                      size: const ResizableSize.expand(min: 250, max: 400),
+                      child: Container(
+                        width: double.infinity,
+                        color: Color.fromARGB(255, 23, 33, 43),
+                        child: Column(
+                          crossAxisAlignment: .center,
+                          mainAxisAlignment: .center,
+                          children: [
+                            TextField(
+                              decoration: const InputDecoration(
+                                hintText: "Search chats",
+                              ),
+                            ),
+                            Expanded(
+                              child: WidgetList(
+                                items: chatList1,
+                                reverse: false,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    ResizableChild(
+                      size: const ResizableSize.expand(min: 500),
+                      child: ChatContent(
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        sendMsg: _sendMsg,
+                        items: _items,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
