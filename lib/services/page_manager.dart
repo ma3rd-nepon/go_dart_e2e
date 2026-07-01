@@ -4,17 +4,16 @@ class PageEntry {
   final PageId id;
   final Widget page;
   final bool canBeClosed;
-  final bool isInBar; // need dodelat
 
   const PageEntry({
     required this.id,
     required this.page,
-    this.canBeClosed = true,
-    this.isInBar = false,
+    this.canBeClosed = true
   });
 }
 
 enum PageId {
+  frame('supernova*', Icons.egg),
   chat('Сообщения', Icons.chat_bubble),
   login('Регистрация', Icons.explore),
   calls('Звонки', Icons.phone),
@@ -32,12 +31,10 @@ class PageManager extends ChangeNotifier {
   static const int maxPages = 6;
 
   final List<PageEntry> _pages = [];
-  final List<PageEntry> _tabs = [];
   int _currentIndex = 0;
   int _previousIndex = 0;
 
   List<PageEntry> get pages => _pages;
-  List<PageEntry> get tabs => _tabs;
   int get currentIndex => _currentIndex;
   PageEntry get currentPage => _pages[_currentIndex];
 
@@ -54,7 +51,6 @@ class PageManager extends ChangeNotifier {
       if (_pages.length > maxPages) {
         _removeOldestClosable();
       }
-      if (entry.isInBar) _tabs.add(entry);
       _currentIndex = _pages.length - 1;
     }
     notifyListeners();
@@ -89,10 +85,10 @@ class PageManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void switchTab(int index) {
-    if (currentIndex != index) { _currentIndex = _tabs.length > index ? _pages.indexOf(_tabs[index]) : 0; }
-    notifyListeners();
-  }
+  // void switchTab(int index) {
+  //   if (currentIndex != index) { _currentIndex = _tabs.length > index ? _pages.indexOf(_tabs[index]) : 0; }
+  //   notifyListeners();
+  // }
 
   void _removeOldestClosable() {
     for (int i = 0; i < _pages.length; i++) {
@@ -106,5 +102,3 @@ class PageManager extends ChangeNotifier {
     }
   }
 }
-
-

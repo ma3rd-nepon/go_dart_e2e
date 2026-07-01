@@ -1,38 +1,16 @@
 import "package:flutter/material.dart";
-
-
-// final defaultIconStyle = IconButton.styleFrom(
-//   backgroundColor: const Color.fromARGB(0, 1, 1, 1),
-//   foregroundColor: const Color.fromARGB(255, 43, 82, 120),
-// );
-
-var iconButtonStyle = IconButton.styleFrom(
-    backgroundColor: Colors.transparent,            // прозрачный фон
-    shadowColor: Colors.transparent,                // без тени
-    surfaceTintColor: Colors.transparent,
-    foregroundColor: Color.fromARGB(255, 43, 82, 120)
-);
+import 'package:go_dart_e2e/theme/app_theme.dart';
 
 class CustomButton extends StatelessWidget {
   final Text text;
   final VoidCallback _onPress;
-  const CustomButton({
-    super.key,
-    required this.text,
-    required this._onPress
-  });
+  const CustomButton({super.key, required this.text, required this._onPress});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: _onPress,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 53, 53, 53), 
-        foregroundColor: Color.fromARGB(0, 1, 1, 1), 
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), 
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)), 
-        elevation: 0
-      ),
+      style: Theme.of(context).elevatedButtonTheme.style,
       child: text,
     );
   }
@@ -47,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this._onPress,
-    this.iconSize=16,
+    this.iconSize = 16,
   });
 
   @override
@@ -56,7 +34,44 @@ class CustomIconButton extends StatelessWidget {
       icon: icon,
       iconSize: iconSize,
       onPressed: _onPress,
-      style: iconButtonStyle
+      style: Theme.of(context).iconButtonTheme.style,
+    );
+  }
+}
+
+class WindowsButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  const WindowsButton({super.key, required this.onTap, required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      hoverColor: AppColors.surfaceHover,
+      onTap: onTap,
+      child: Container(
+        width: 46,
+        height: 32,
+        color: AppColors.surfaceTransparent,
+        child: Icon(icon, size: 32, color: AppColors.surfaceIcon),
+      ),
+    );
+  }
+}
+
+class LogoButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPress;
+
+  const LogoButton({super.key, required this.text, required this.onPress});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPress,
+      style: Theme.of(context).elevatedButtonTheme.style,
+      child: Text(text)
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:flutter_resizable_container/flutter_resizable_container.dart";
 import 'package:go_dart_e2e/widgets/buttons.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:go_dart_e2e/theme/app_theme.dart';
 
 // import "package:go_dart_e2e/widgets/buttons.dart";
 import "package:go_dart_e2e/widgets/chat.dart";
@@ -18,7 +18,7 @@ class _ChatsPageState extends State<ChatsPage> {
   final _focusNode = FocusNode();
   final List<List<Widget>> _items = chatList;
   int _selectedIndex = 0;
-  String _selectedChatName = "Эмир тиктокер";
+  String _selectedChatName = "";
 
   void _sendMsg() {
     final text = _controller.text.trim();
@@ -64,12 +64,12 @@ class _ChatsPageState extends State<ChatsPage> {
                     ResizableChild(
                       divider: ResizableDivider(
                         thickness: 5,
-                        color: Color.fromARGB(255, 23, 33, 43),
+                        color: AppColors.surfaceVariant,
                       ),
                       size: const ResizableSize.expand(min: 250, max: 400),
                       child: Container(
                         width: double.infinity,
-                        color: Color.fromARGB(255, 23, 33, 43),
+                        color: AppColors.chatBackground,
                         child: Column(
                           crossAxisAlignment: .center,
                           mainAxisAlignment: .center,
@@ -125,34 +125,40 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Expanded(
-          child: Column(
-            children: [
-              Text("Sign in page", style: GoogleFonts.jetBrainsMono()),
-              TextField(decoration: InputDecoration(hintText: "Enter login")),
-              TextField(
-                decoration: InputDecoration(hintText: "Enter password"),
+        child: Column(
+          mainAxisAlignment: .center,
+          crossAxisAlignment: .center,
+          children: [
+            Image.asset('assets/images/rabbit.png', width: 100, height: 100),
+            const SizedBox(height: 15),
+            Text("Sign in"),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: 250,
+              child: TextField(
+                decoration: InputDecoration(hintText: "Enter login"),
               ),
-              CustomButton(text: Text("БУРМАЛДА", style: textStyle), onPress: () => startLogin()),
-            ],
-          ),
+            ),
+            const SizedBox(height: 4),
+            SizedBox(
+              width: 250,
+              child: LoginWidget()
+            ),
+            const SizedBox(height: 10),
+            CustomButton(text: Text("БУРМАЛДА"), onPress: () => startLogin()),
+          ],
         ),
       ),
     );
   }
 }
 
-
 class CallsPage extends StatelessWidget {
   const CallsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Hello world", style: GoogleFonts.jetBrainsMono())
-      )
-    );
+    return Scaffold(body: Center(child: Text("Hello world")));
   }
 }
 
@@ -161,19 +167,12 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Hello settings", style: GoogleFonts.jetBrainsMono())
-      )
-    );
+    return Scaffold(body: Center(child: Text("Hello settings")));
   }
 }
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({
-    super.key,
-
-  });
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -193,11 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Expanded(
-          child: Text("Hello Profile", style: textStyle)
-        )
-      ),
+      body: Center(child: Text("Hello Profile")),
     );
   }
 }

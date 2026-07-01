@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_dart_e2e/widgets/app.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:go_dart_e2e/theme/app_theme.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
+  const options = WindowOptions(
+    size: Size(1024, 768),
+    minimumSize: Size(600, 400),
+    center: true,
+    titleBarStyle: TitleBarStyle.hidden,    // ← скрыть стандартный заголовок
+    windowButtonVisibility: false,           // ← скрыть кнопки Windows
+  );
+
+  windowManager.waitUntilReadyToShow(options, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
+  runApp(MyApp(windowManager: windowManager));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  WindowManager windowManager;
+  MyApp({super.key, required this.windowManager});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter 123',
-      theme: ThemeData(
-        colorScheme: ColorScheme.dark()
-      ),
-      home: const MainAppManager(),
+      title: 'supernova',
+      theme: ThemeList.orange.theme,
+      home: MainAppManager(windowManager: windowManager),
     );
   }
 }

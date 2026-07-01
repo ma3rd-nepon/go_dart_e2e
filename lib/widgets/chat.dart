@@ -1,69 +1,68 @@
 import "package:flutter/material.dart";
+import "package:go_dart_e2e/theme/app_theme.dart";
 import "package:go_dart_e2e/widgets/buttons.dart";
-
-const textStyle = TextStyle(color: Colors.white);
 
 const chatList1 = [
   ChatListElement(
     chatName: "эмир тиктокер",
     chatLastMsg: "привет",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: true,
     index: 0,
   ),
   ChatListElement(
     chatName: "chat2",
     chatLastMsg: "нет",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: false,
     index: 1,
   ),
   ChatListElement(
     chatName: "chat300000000000",
     chatLastMsg: "пока",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: true,
     index: 2,
   ),
   ChatListElement(
     chatName: "chat488",
     chatLastMsg: "2222",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: false,
     index: 3,
   ),
   ChatListElement(
     chatName: "chat5856756",
     chatLastMsg: "ываываыва",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: true,
     index: 4,
   ),
   ChatListElement(
     chatName: "chat6666666666666",
     chatLastMsg: "хвы",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: true,
     index: 5,
   ),
   ChatListElement(
     chatName: "эмир тиктокер",
     chatLastMsg: "1234",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: true,
     index: 6,
   ),
   ChatListElement(
     chatName: "эмир тиктокер",
     chatLastMsg: "idgaf",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: true,
     index: 7,
   ),
   ChatListElement(
     chatName: "эмир тиктокер",
     chatLastMsg: "германия",
-    chatIcon: Icon(Icons.person, size: 70),
+    chatIcon: Icon(Icons.account_circle_rounded, size: 70),
     chatStatus: false,
     index: 8,
   ),
@@ -122,10 +121,10 @@ class MessageBubble extends StatelessWidget {
         margin: const EdgeInsets.all(4),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 43, 82, 120),
+          color: AppColors.primary,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Text(text, style: textStyle),
+        child: Text(text),
       ),
     );
   }
@@ -169,19 +168,19 @@ class _ChatListElementState extends State<ChatListElement> {
           height: 100,
           padding: const EdgeInsets.only(top: 12),
           color: Tabs.of(context).selectedIndex == widget._index
-              ? Color.fromARGB(255, 43, 82, 120)
+              ? AppColors.primaryVariant
               : _hover
-              ? Color.fromARGB(255, 32, 43, 54)
-              : Color.fromARGB(255, 23, 33, 43),
+              ? AppColors.surface
+              : AppColors.chatListBackground,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               widget._chatIcon,
               Column(
                 children: [
-                  Text(widget._chatName, style: textStyle),
+                  Text(widget._chatName),
                   const SizedBox(height: 10),
-                  Text(widget._chatLastMsg, style: textStyle),
+                  Text(widget._chatLastMsg),
                 ],
               ),
               Expanded(
@@ -212,7 +211,7 @@ class WidgetList extends StatelessWidget {
     final Axis scrollDirection = Tabs.of(context).scrollDirection;
     return Container(
       width: double.infinity,
-      color: Color.fromARGB(255, 14, 22, 33),
+      color: AppColors.background,
       child: ListView.builder(
         scrollDirection: scrollDirection,
         reverse: reverse,
@@ -272,7 +271,7 @@ class ChatContent extends StatelessWidget {
       mainAxisAlignment: .center,
       children: [
         Container(
-          color: Color.fromARGB(255, 27, 39, 52),
+          color: AppColors.chatBackground,
           height: 80,
           padding: const EdgeInsets.all(8),
           child: Row(
@@ -284,11 +283,10 @@ class ChatContent extends StatelessWidget {
                   Builder(
                     builder: (context) => Text(
                       Tabs.of(context).currentChatName,
-                      style: textStyle,
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text("был(а) давно", style: textStyle),
+                  Text("был(а) давно"),
                 ],
               ),
               SizedBox(width: 250),
@@ -330,14 +328,13 @@ class ChatContent extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                color: Color.fromARGB(255, 23, 33, 43),
+                color: AppColors.inputBar,
                 child: TextField(
                   autofocus: true,
                   focusNode: _focusNode,
                   controller: _controller,
                   decoration: InputDecoration(hintText: "Enter a message"),
                   onSubmitted: (value) => _sendMsg(),
-                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -349,6 +346,33 @@ class ChatContent extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+
+class LoginWidget extends StatefulWidget {
+  const LoginWidget({
+    super.key
+  });
+  @override
+  State<LoginWidget> createState() => _LoginState();
+}
+
+class _LoginState extends State<LoginWidget> {
+  bool _obscured = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      obscureText: _obscured,
+      decoration: InputDecoration(
+        hintText: 'Enter password',
+        suffixIcon: IconButton(
+          icon: Icon(_obscured ? Icons.visibility_off : Icons.visibility),
+          onPressed: () => setState(() => _obscured = !_obscured),
+        ),
+      ),
     );
   }
 }
